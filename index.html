@@ -1,0 +1,106 @@
+<!DOCTYPE html> 
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+            <title>Idle Hands</title>
+    </head>
+    <body>
+        <script src="main.js" charset="utf-8" type="text/javascript">
+        </script>
+        <div id="MainMenu">
+            <div id="IdlenessUnlock">
+                <span id="Idleness" title="Aren't you bored?">
+                    Idleness
+                </span>
+            </div>
+            <div id="CashUnlock">
+                <span id="Cash" title="Aren't you wealthy!">
+                </span>
+            </div>
+            <div id="SaltUnlock">
+                <span id="Salt" title="Don't get salty...">
+                </span>
+            </div>
+            <div id="SinUnlock" style="display:none">
+                <span id="Sin" title="Now that's a real wage.">
+                </span>
+            </div>
+            <div id="MagicUnlock" style="display:none">
+                <span id="Magic" title="Not just parlor tricks anymore.">
+                </span>
+            </div>
+                <div id="Poker">
+                    <span id="PokerResult" title="Would you like to play a game?">
+                    </span>
+            </div>
+            <p>
+                <button onclick="Upgrade()" id="UpgradeMenuShow" style="display:none">Upgrade</button>
+                <button onclick="Summoning()" id="SummoningMenuShow" style="display:none">Summon</button>
+                <button onclick="Magic()" id="MagicMenuShow" style="display:none">Magic</button>
+                <button onclick="Garden()" id="GardenMenuShow" style="display:none">Garden</button>
+                <button onclick="Demons()" id="DemonsMenuShow" style="display:none">Demons</button>
+            </p>
+        </div>
+        <div id="UpgradeMenu" style="display:none">
+            <div id="CheatDiv">    
+                <button onclick="Cheat()" id="Cheat" disabled='disabled'>
+                    <span title="Time to up your game.">
+                        <p>Cheat!</p>
+                        <p id="CheatRankCost">Cost: Free</p>
+                    </span>
+                </button>
+                <button onclick="HigherStakes()" id="HigherStakes" disabled='disabled'>
+                    <span title="Dolla Dolla Bill Y’all.">
+                        <p>Higher Stakes</p>
+                        <p id="HigherStakesRankCost">Cost: 100 Cash</p>
+                    </span>
+                </button>
+                <button onclick="GetSalty()" id="GetSalty" disabled='disabled'>
+                    <span title="Who knew the benefits of a bad temper.">
+                        <p>Get Salty</p>
+                        <p id="GetSaltyRankCost">Cost: 100 Cash</p>
+                    </span>
+                </button>
+                <button onclick="BigBets()" id="BigBets" disabled='disabled'>
+                    <span title="Slower to play, but so much more cash on the line.">
+                        <p>Big Bets</p>
+                        <p id="BigBetsRankCost">Cost: 500 Cash</p>
+                    </span>
+                </button>
+                <button onclick="IdleHands()" id="IdleHands" disabled='disabled'>
+                    <span title="Are the Devil’s Plaything.">
+                        <p>Idle Hands</p>
+                        <p id="IdleHandsRankCost">Cost: 1000 Cash</p>
+                    </span>
+                </button>
+                <button onclick="SummoningCircle()" id="SummoningCircle" disabled='disabled' style="display:none">
+                    <span title="A circle of salt. I’m sure you’ll find some use for it.">
+                        <p>Summoning Circle</p>
+                        <p id="SummoningCircleRankCost">Cost: 50 Salt</p>
+                    </span>
+                </button>
+            </div>
+            <button onclick="ReturnMainMenu()" id="UpgradeReturnMainMenu">Return</button>
+        </div>
+        <div id="SummoningMenu" style="display:none">
+            <div>
+                <span id="DemonsAvailable" title="How many more Demons you can summon.">
+                </span>
+            </div>    
+            <div>
+                <button onclick="Imp()" id="Imp" disabled='disabled'>
+                    <span title="A minor demon offers to help.">
+                        <p>Imp</p>
+                        <p id="ImpRankCost">Cost: Free*</p>
+                    </span>
+                </button>
+                <button onclick="Warlock()" id="Warlock" disabled='disabled' style="display:none">
+                    <span title="A damned practitioner of the dark arts answers your call.">
+                        <p>Warlock</p>
+                        <p id="WarlockRankCost">Cost: 66 Sin</p>
+                    </span>
+                </button>
+            </div>
+            <button onclick="ReturnMainMenu()" id="UpgradeReturnMainMenu">Return</button>
+        </div>
+    </body>

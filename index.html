@@ -26,10 +26,10 @@
                 </span>
             </div>
             <div id="MagicUnlock" style="display:none">
-                <span id="Magic" title="Not just parlor tricks anymore.">
+                <span id="Mana" title="Not just parlor tricks anymore.">
                 </span>
             </div>
-                <div id="Poker">
+            <div id="Poker">
                     <span id="PokerResult" title="Would you like to play a game?">
                     </span>
             </div>
@@ -101,6 +101,17 @@
                     </span>
                 </button>
             </div>
+            <button onclick="ReturnMainMenu()" id="UpgradeReturnMainMenu">Return</button>
+        </div>
+        <div id="MagicMenu" style="display:none">
+            <span id="Mana" title="Not just parlor tricks anymore.">
+            </span>
+            <button onclick="StackTheDeck()" id="StackTheDeck" disabled='disabled'>
+                <span title="Kinda like cheating, in that it’s cheating.">
+                    <p>Stack The Deck</p>
+                    <p id="StackTheDeckRankCost">Cost: 5 Mana</p>
+                </span>
+            </button>
             <button onclick="ReturnMainMenu()" id="UpgradeReturnMainMenu">Return</button>
         </div>
     </body>

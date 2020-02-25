@@ -27,9 +27,14 @@ var gameData = {
     ImpRank: 0,
     WarlockRank: 0,
     GetSaltyRank: 0,
+    Mana: 0,
+    ManaMax: 0,
+    ManaPerTick: 0,
+    StackTheDeckRank: 0,
 }
 
 function Idle() {
+    //This increments your core resource: Idleness. When you accumulate enough it triggers the primary income system: Poker.
     IdlenessPerTick()
     gameData.Idleness += gameData.IdlenessPerTick
     IdlenessMax()
@@ -41,10 +46,12 @@ function Idle() {
 }
 
 function getRandomInt() {
+    //This is almost definitely wrong.
   return Math.floor(Math.random() * Math.floor(gameData.ChanceWinningMax));
 }
 
 function Poker() {
+    //The other core game loop. Gives you Cash/Salt to start and eventually Sin as well. Might eventually have more uses idk.
     if (getRandomInt() <= ChanceWinning()) {
         PokerWin()
         gameData.Cash += gameData.WinCash
@@ -67,6 +74,8 @@ function Poker() {
 }
 
 function Upgrade() {
+    //This is a yikes.
+    //It makes your numbers bigger and gives you other numbers to make bigger.
     document.getElementById("MainMenu").style.display = "none"
     document.getElementById("UpgradeMenu").style.display = "inline"
     if(gameData.Salt >= (((gameData.CheatRank)*1.06)*(66))) {
@@ -102,6 +111,9 @@ function Upgrade() {
 }
 
 function Summoning() {
+    //Make different numbers bigger.
+    //I don't think Imp is in a good place yet. It probably doesn't do enough.
+    //Warlock is going to do what Imp originally did, unlock the Magic feature. 
     document.getElementById("MainMenu").style.display = "none"
     document.getElementById("SummoningMenu").style.display = "inline"
     if((gameData.Sin >= (((gameData.ImpRank)*1.06)*(66))) && (gameData.DemonMax >= 1)) {
@@ -113,6 +125,17 @@ function Summoning() {
         document.getElementById("Warlock").disabled = false
     } else {
         document.getElementById("Warlock").disabled = true
+    }
+}
+
+function Magic() {
+    document.getElementById("MainMenu").style.display = "none"
+    document.getElementById("MagicMenu").style.display = "inline"
+    document.getElementById("Mana").innerHTML = gameData.Mana + " / " + gameData.ManaMax + " Mana"
+    if(gameData.Mana >= (5 + ((gameData.StackTheDeckRank) * (1.06))).toFixed()) {
+        document.getElementById("StackTheDeck").disabled = false
+    } else {
+        document.getElementById("StackTheDeck").disabled = true
     }
 }
 
@@ -166,10 +189,10 @@ function IdleHands() {
 }
 
 function SummoningCircle() {
-    gameData.Salt -= (100+(((gameData.SummoningCircleRank)*1.06)*(100)))
+    gameData.Salt -= (50+(((gameData.SummoningCircleRank)*1.06)*(50)))
     document.getElementById("Salt").innerHTML = gameData.Salt.toFixed() + " Salt"
     gameData.SummoningCircleRank += 1
-    document.getElementById("SummoningCircleRankCost").innerHTML = (100+(((gameData.SummoningCircleRank)*1.06)*(100))).toFixed() + " Salt"
+    document.getElementById("SummoningCircleRankCost").innerHTML = (50+(((gameData.SummoningCircleRank)*1.06)*(50))).toFixed() + " Salt"
 }
 
 function DemonMax() {
@@ -178,8 +201,32 @@ function DemonMax() {
     document.getElementById("DemonsAvailable").innerHTML = gameData.DemonMax + " Circles for Demons."
 }
 
+function ManaPerTick() {
+    gameData.ManaPerTick = (1 * (1.1*(Math.pow(gameData.WarlockRank, 0.1))))
+    gameData.ManaMax = (5 + (5 * (Math.pow(gameData.WarlockRank, 0.025))))
+}
+
+function StackTheDeck() {
+    gameData.Mana -= (5 + ((gameData.StackTheDeckRank) * (1.06)))
+    document.getElementById("Mana").innerHTML = gameData.Mana + " / " + gameData.ManaMax + " Mana"
+    gameData.StackTheDeckRank += 1
+    document.getElementById("StackTheDeckRankCost").innerHTML = (5 + ((gameData.StackTheDeckRank) * (1.06))).toFixed() + " Mana"
+}
+
+function ManaRefresh() {
+    ManaPerTick()
+    if (gameData.Mana + gameData.ManaPerTick <= gameData.ManaMax) {
+    gameData.Mana += gameData.ManaPerTick
+    }
+    else {
+    gameData.Mana = gameData.ManaMax
+    // This is where overflow mana command will go once I code the ability in.
+    }
+    document.getElementById("Mana").innerHTML = gameData.Mana.toFixed() + " / " + gameData.ManaMax.toFixed() + " Mana"
+}
+
 function ChanceWinning() {
-    return ((gameData.ChanceWinning + ((Math.pow(gameData.CheatRank, 0.025))*(40)) + (Math.pow(gameData.ImpRank, 0.025))*(5))).toFixed();
+    return (Math.pow(gameData.StackTheDeckRank + 1, 0.1) * ((gameData.ChanceWinning + ((Math.pow(gameData.CheatRank, 0.025))*(40)) + (Math.pow(gameData.ImpRank, 0.025))*(5)))).toFixed();
 }
 
 function PokerWin() {
@@ -201,6 +248,7 @@ function PokerLoss() {
 function ReturnMainMenu() {
     document.getElementById("UpgradeMenu").style.display = "none"
     document.getElementById("SummoningMenu").style.display = "none"
+    document.getElementById("MagicMenu").style.display = "none"
     document.getElementById("MainMenu").style.display = "inline"
 }
 
@@ -219,8 +267,9 @@ var MainGameLoop = window.setInterval(function() {
         document.getElementById("Warlock").style.display = "inline"
     }
     if (gameData.WarlockRank >= 1) {
-        document.getElementById("Magic").style.display = "inline"
+        document.getElementById("MagicMenuShow").style.display = "inline"
         document.getElementById("MagicUnlock").style.display = "inline"
+        ManaRefresh()
     }
 }, 1000)
 
@@ -271,5 +320,10 @@ var UnlockLoop = window.setInterval(function() {
         document.getElementById("Warlock").disabled = false
     } else {
         document.getElementById("Warlock").disabled = true
+    }
+    if (gameData.Mana >= (5 + ((gameData.StackTheDeckRank) * (1.06))).toFixed()) {
+        document.getElementById("StackTheDeck").disabled = false
+    } else {
+        document.getElementById("StackTheDeck").disabled = true
     }
 }, 20)

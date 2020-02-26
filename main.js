@@ -1,3 +1,5 @@
+//Fix Contracts. Need to increment contract progress!!!
+
 var gameData = {
     Cash: 0,
     Salt: 0,
@@ -8,7 +10,7 @@ var gameData = {
     IdlenessMax: 666,
     ChanceWinning: 10,
     ChanceWinningMax: 100,
-    WinCash: 100.1,
+    WinCash: 100,
     LoseSalt: 10,
     CashIncome: 0,
     ManaMax: 0,
@@ -31,6 +33,16 @@ var gameData = {
     ManaMax: 0,
     ManaPerTick: 0,
     StackTheDeckRank: 0,
+    MakePactRank: 0,
+    ContractProgress: 0,
+    IdleContractRank: 0,
+    ManaMoreContractRank: 0,
+    ManaFasterContractRank: 0,
+    IdleContractActive: 0,
+    ContractProgressPT: 1000,
+    Contract1R: 3,
+    Contract2R: 2,
+    Contract3R: 1,
 }
 
 function Idle() {
@@ -131,12 +143,79 @@ function Summoning() {
 function Magic() {
     document.getElementById("MainMenu").style.display = "none"
     document.getElementById("MagicMenu").style.display = "inline"
-    document.getElementById("Mana").innerHTML = gameData.Mana + " / " + gameData.ManaMax + " Mana"
+    document.getElementById("Mana2").innerHTML = gameData.Mana + " / " + gameData.ManaMax + " Mana"
     if(gameData.Mana >= (5 + ((gameData.StackTheDeckRank) * (1.06))).toFixed()) {
         document.getElementById("StackTheDeck").disabled = false
     } else {
         document.getElementById("StackTheDeck").disabled = true
     }
+    if(gameData.Mana >= (15 + ((gameData.StackTheDeckRank) * (1.06) * 5))) {
+        document.getElementById("MakePact").disabled = false
+    } else {
+        document.getElementById("MakePact").disabled = true
+    }
+}
+
+function Contracts() {
+    document.getElementById("MainMenu").style.display = "none"
+    document.getElementById("ContractsMenu").style.display = "inline"  
+}
+
+function Contract1() {
+    gameData.ContractProgress = 0
+    gameData.IdleContractActive = 1
+    switch (gameData.Contract1R) {
+        case 1: 
+            document.getElementById("ActiveContract").innerHTML = "Idle Faster"
+        break;
+        case 2:
+            document.getElementById("ActiveContract").innerHTML = "Mana More"
+        break;
+        case 3:
+            document.getElementById("ActiveContract").innerHTML = "Mana Faster"
+        break;
+        default:
+            document.getElementById("ActiveContract").innerHTML = "BUGGED"
+    }
+    DisableContracts()
+}
+
+function Contract2() {
+    gameData.ContractProgress = 0
+    gameData.IdleContractActive = 1
+    switch (gameData.Contract2R) {
+        case 1: 
+            document.getElementById("ActiveContract").innerHTML = "Idle Faster"
+        break;
+        case 2:
+            document.getElementById("ActiveContract").innerHTML = "Mana More"
+        break;
+        case 3:
+            document.getElementById("ActiveContract").innerHTML = "Mana Faster"
+        break;
+        default:
+            document.getElementById("ActiveContract").innerHTML = "BUGGED"
+    }
+    DisableContracts()
+}
+
+function Contract3() {
+    gameData.ContractProgress = 0
+    gameData.IdleContractActive = 1
+    switch (gameData.Contract3R) {
+        case 1: 
+            document.getElementById("ActiveContract").innerHTML = "Idle Faster"
+        break;
+        case 2:
+            document.getElementById("ActiveContract").innerHTML = "Mana More"
+        break;
+        case 3:
+            document.getElementById("ActiveContract").innerHTML = "Mana Faster"
+        break;
+        default:
+            document.getElementById("ActiveContract").innerHTML = "BUGGED"
+    }
+    DisableContracts()
 }
 
 function Imp() {
@@ -202,8 +281,8 @@ function DemonMax() {
 }
 
 function ManaPerTick() {
-    gameData.ManaPerTick = (1 * (1.1*(Math.pow(gameData.WarlockRank, 0.1))))
-    gameData.ManaMax = (5 + (5 * (Math.pow(gameData.WarlockRank, 0.025))))
+    gameData.ManaPerTick = (1 * (1.1*(Math.pow(gameData.WarlockRank, 0.5))))
+    gameData.ManaMax = ((Math.pow((gameData.MakePactRank +1), .5)) * (5 + (5 * gameData.WarlockRank)))
 }
 
 function StackTheDeck() {
@@ -211,6 +290,13 @@ function StackTheDeck() {
     document.getElementById("Mana").innerHTML = gameData.Mana + " / " + gameData.ManaMax + " Mana"
     gameData.StackTheDeckRank += 1
     document.getElementById("StackTheDeckRankCost").innerHTML = (5 + ((gameData.StackTheDeckRank) * (1.06))).toFixed() + " Mana"
+}
+
+function MakePact() {
+    gameData.Mana -= (15 + ((gameData.StackTheDeckRank) * (1.06) * 5))
+    document.getElementById("Mana").innerHTML = gameData.Mana + " / " + gameData.ManaMax + " Mana"
+    gameData.MakePactRank += 1
+    document.getElementById("MakePactRankCost").innerHTML = "Cost: " (15 + ((gameData.StackTheDeckRank) * (1.06) * 5)) + " Mana"
 }
 
 function ManaRefresh() {
@@ -223,6 +309,7 @@ function ManaRefresh() {
     // This is where overflow mana command will go once I code the ability in.
     }
     document.getElementById("Mana").innerHTML = gameData.Mana.toFixed() + " / " + gameData.ManaMax.toFixed() + " Mana"
+    document.getElementById("Mana2").innerHTML = gameData.Mana.toFixed() + " / " + gameData.ManaMax.toFixed() + " Mana"
 }
 
 function ChanceWinning() {
@@ -234,7 +321,7 @@ function PokerWin() {
 }
 
 function IdlenessPerTick() {
-    gameData.IdlenessPerTick = (100 + ((Math.pow(gameData.IdleHandsRank, 0.025))*(10)))
+    gameData.IdlenessPerTick = (100 + ((Math.pow(gameData.IdleHandsRank, 0.025))*(10)) + (Math.pow(gameData.IdleContractRank, 0.1)*10))
 }
 
 function IdlenessMax() {
@@ -249,11 +336,137 @@ function ReturnMainMenu() {
     document.getElementById("UpgradeMenu").style.display = "none"
     document.getElementById("SummoningMenu").style.display = "none"
     document.getElementById("MagicMenu").style.display = "none"
+    document.getElementById("ContractsMenu").style.display = "none"
     document.getElementById("MainMenu").style.display = "inline"
 }
 
+function ContractProgressPT() {
+    gameData.ContractProgressPT = 1000
+}
+
+function NewContracts() {
+    document.getElementById("Contract1Button").disabled = false
+    document.getElementById("Contract2Button").disabled = false
+    document.getElementById("Contract3Button").disabled = false
+    RandomizeContracts()
+    
+}
+
+function shuffleContracts(array) {
+        for (let i = (array.length - 1); i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+function RandomizeContracts() {
+    var ContractOptions = [3, 2, 1]
+    shuffleContracts(ContractOptions)
+    gameData.Contract1R = ContractOptions.pop(0)
+    gameData.Contract2R = ContractOptions.pop(1)
+    gameData.Contract3R = ContractOptions.pop(2)
+
+    switch(gameData.Contract1R) {
+        case 1:
+            document.getElementById("Contract1").innerHTML = "Idle Faster"
+            document.getElementById("Contract1").title = "Blood for idleness."
+            break;
+        case 2:
+            document.getElementById("Contract1").innerHTML = "Mana More"
+            document.getElementById("Contract1").title = "Blood for more mana"
+            break;
+        case 3:
+            document.getElementById("Contract1").innerHTML = "Mana Faster"
+            document.getElementById("Contract1").title = "Blood for faster mana"
+            break;
+        default:
+            document.getElementById("Contract1").innerHTML = gameData.Contract1R
+    }
+    switch(gameData.Contract2R) {
+        case 1:
+            document.getElementById("Contract2").innerHTML = "Idle Faster"
+            document.getElementById("Contract2").title = "Blood for idleness."
+            break;
+        case 2:
+            document.getElementById("Contract2").innerHTML = "Mana More"
+            document.getElementById("Contract2").title = "Blood for more mana"
+            break;
+        case 3:
+            document.getElementById("Contract2").innerHTML = "Mana Faster"
+            document.getElementById("Contract2").title = "Blood for faster mana"
+            break;
+        default:
+            document.getElementById("Contract2").innerHTML = "Bugged"
+    }
+    switch(gameData.Contract3R) {
+        case 1:
+            document.getElementById("Contract3").innerHTML = "Idle Faster"
+            document.getElementById("Contract3").title = "Blood for idleness."
+            break;
+        case 2:
+            document.getElementById("Contract3").innerHTML = "Mana More"
+            document.getElementById("Contract3").title = "Blood for more mana"
+            break;
+        case 3:
+            document.getElementById("Contract3").innerHTML = "Mana Faster"
+            document.getElementById("Contract3").title = "Blood for faster mana"
+            break;
+        default:
+            document.getElementById("Contract3").innerHTML = "Bugged"
+    }
+}
+
+function ContractLoop() {
+    ContractProgressPT()
+    gameData.ContractProgress += gameData.ContractProgressPT
+    switch (document.getElementById("ActiveContract").innerHTML) {
+        case "Idle Faster": 
+            if ((gameData.ContractProgress >= 300000)) { 
+            gameData.IdleContractActive = 0
+            document.getElementById("ActiveContract").innerHTML = "Active Contract"
+            gameData.IdleContractRank += 1
+            document.getElementById("ActiveContract").title = "Sign here, here, and here."
+            NewContracts()
+        }
+        break;
+        case "Mana More":
+        if ((gameData.ContractProgress >= 300000)){ 
+            gameData.IdleContractActive = 0
+            document.getElementById("ActiveContract").innerHTML = "Active Contract"
+            gameData.ManaMoreContractRank += 1
+            document.getElementById("ActiveContract").title = "Sign here, here, and here."
+            NewContracts()
+        }
+        break;
+        case "Mana Faster":
+            if ((gameData.ContractProgress >= 300000)){
+            gameData.IdleContractActive = 0
+            document.getElementById("ActiveContract").innerHTML = "Active Contract"
+            gameData.ManaFasterContractRank += 1
+            document.getElementById("ActiveContract").title = "Sign here, here, and here."
+            NewContracts()
+        }
+        default:
+            
+            document.getElementById("ActiveContract").title = ((gameData.ContractProgress / 300000) * 100).toFixed() + "% Progress"
+
+    }
+}
+
+
+function DisableContracts() {
+    document.getElementById("Contract1Button").disabled = true
+    document.getElementById("Contract2Button").disabled = true
+    document.getElementById("Contract3Button").disabled = true
+
+}
+    
 var MainGameLoop = window.setInterval(function() {
     Idle()
+    if (gameData.MakePactRank >= 1){
+        ContractLoop()
+        document.getElementById("ContractsMenuShow").style.display = "inline"
+    }
     if (gameData.LossStreak >= 3) {
         document.getElementById("UpgradeMenuShow").style.display = "inline"
     }
@@ -271,6 +484,7 @@ var MainGameLoop = window.setInterval(function() {
         document.getElementById("MagicUnlock").style.display = "inline"
         ManaRefresh()
     }
+    
 }, 1000)
 
 var UnlockLoop = window.setInterval(function() {

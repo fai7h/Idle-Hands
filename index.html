@@ -37,7 +37,7 @@
                 <button onclick="Upgrade()" id="UpgradeMenuShow" style="display:none">Upgrade</button>
                 <button onclick="Summoning()" id="SummoningMenuShow" style="display:none">Summon</button>
                 <button onclick="Magic()" id="MagicMenuShow" style="display:none">Magic</button>
-                <button onclick="Garden()" id="GardenMenuShow" style="display:none">Garden</button>
+                <button onclick="Contracts()" id="ContractsMenuShow" style="display:none">Contracts</button>
                 <button onclick="Demons()" id="DemonsMenuShow" style="display:none">Demons</button>
             </p>
         </div>
@@ -104,14 +104,45 @@
             <button onclick="ReturnMainMenu()" id="UpgradeReturnMainMenu">Return</button>
         </div>
         <div id="MagicMenu" style="display:none">
-            <span id="Mana" title="Not just parlor tricks anymore.">
-            </span>
+            <div>
+                <span id="Mana2" title="Not just parlor tricks anymore.">
+                </span>
+            </div>
             <button onclick="StackTheDeck()" id="StackTheDeck" disabled='disabled'>
                 <span title="Kinda like cheating, in that it’s cheating.">
                     <p>Stack The Deck</p>
                     <p id="StackTheDeckRankCost">Cost: 5 Mana</p>
                 </span>
             </button>
+            <button onclick="MakePact()" id="MakePact" disabled='disabled'>
+                <span title="You’ve summoned all these Demons, why not put them to better use.">
+                    <p>Make Pact</p>
+                    <p id="MakePactRankCost">Cost: 15 Mana</p>
+                </span>
+            </button>
+            <button onclick="ReturnMainMenu()" id="UpgradeReturnMainMenu">Return</button>
+        </div>
+        <div id="ContractsMenu" style="display:none">
+            <div>
+                <span id="ActiveContract" title="Just sign here, here, and here.">
+                </span>
+            </div>
+            <button onclick="Contract1()" id="Contract1Button">
+                <span id="Contract1">
+                </span>
+            </button>
+            <button onclick="Contract2()" id="Contract2Button">
+                <span id="Contract2">
+                </span>
+            </button>
+            <button onclick="Contract3()" id="Contract3Button">
+                <span id="Contract3">
+                </span>
+            </button>
+            <div>
+                <span id="contractrandomcheck">
+                </span>
+            </div>
             <button onclick="ReturnMainMenu()" id="UpgradeReturnMainMenu">Return</button>
         </div>
     </body>

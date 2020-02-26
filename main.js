@@ -161,6 +161,14 @@ function Contracts() {
     document.getElementById("ContractsMenu").style.display = "inline"  
 }
 
+function Contract0() {
+    NewContracts()
+    document.getElementById("Contract0Button").style.display = "none"  
+    document.getElementById("Contract1Button").style.display = "inline"  
+    document.getElementById("Contract2Button").style.display = "inline"
+    document.getElementById("Contract3Button").style.display = "inline"
+}
+
 function Contract1() {
     gameData.ContractProgress = 0
     gameData.IdleContractActive = 1
@@ -173,6 +181,9 @@ function Contract1() {
         break;
         case 3:
             document.getElementById("ActiveContract").innerHTML = "Mana Faster"
+        break;
+        case 4:
+            document.getElementById("ActiveContract").innerHTML = "Quick Cash"
         break;
         default:
             document.getElementById("ActiveContract").innerHTML = "BUGGED"
@@ -193,6 +204,9 @@ function Contract2() {
         case 3:
             document.getElementById("ActiveContract").innerHTML = "Mana Faster"
         break;
+        case 4:
+            document.getElementById("ActiveContract").innerHTML = "Quick Cash"
+        break;
         default:
             document.getElementById("ActiveContract").innerHTML = "BUGGED"
     }
@@ -211,6 +225,9 @@ function Contract3() {
         break;
         case 3:
             document.getElementById("ActiveContract").innerHTML = "Mana Faster"
+        break;
+        case 4:
+            document.getElementById("ActiveContract").innerHTML = "Quick Cash"
         break;
         default:
             document.getElementById("ActiveContract").innerHTML = "BUGGED"
@@ -359,7 +376,7 @@ function shuffleContracts(array) {
     }
 
 function RandomizeContracts() {
-    var ContractOptions = [3, 2, 1]
+    var ContractOptions = [1, 2, 3, 4]
     shuffleContracts(ContractOptions)
     gameData.Contract1R = ContractOptions.pop(0)
     gameData.Contract2R = ContractOptions.pop(1)
@@ -372,11 +389,15 @@ function RandomizeContracts() {
             break;
         case 2:
             document.getElementById("Contract1").innerHTML = "Mana More"
-            document.getElementById("Contract1").title = "Blood for more mana"
+            document.getElementById("Contract1").title = "Blood for more mana."
             break;
         case 3:
             document.getElementById("Contract1").innerHTML = "Mana Faster"
-            document.getElementById("Contract1").title = "Blood for faster mana"
+            document.getElementById("Contract1").title = "Blood for faster mana."
+            break;
+        case 4:
+            document.getElementById("Contract1").innerHTML = "Quick Cash"
+            document.getElementById("Contract1").title = "Blood money."
             break;
         default:
             document.getElementById("Contract1").innerHTML = "Bugged"
@@ -388,11 +409,15 @@ function RandomizeContracts() {
             break;
         case 2:
             document.getElementById("Contract2").innerHTML = "Mana More"
-            document.getElementById("Contract2").title = "Blood for more mana"
+            document.getElementById("Contract2").title = "Blood for more mana."
             break;
         case 3:
             document.getElementById("Contract2").innerHTML = "Mana Faster"
-            document.getElementById("Contract2").title = "Blood for faster mana"
+            document.getElementById("Contract2").title = "Blood for faster mana."
+            break;
+        case 4:
+            document.getElementById("Contract2").innerHTML = "Quick Cash"
+            document.getElementById("Contract2").title = "Blood money."
             break;
         default:
             document.getElementById("Contract2").innerHTML = "Bugged"
@@ -404,11 +429,15 @@ function RandomizeContracts() {
             break;
         case 2:
             document.getElementById("Contract3").innerHTML = "Mana More"
-            document.getElementById("Contract3").title = "Blood for more mana"
+            document.getElementById("Contract3").title = "Blood for more mana."
             break;
         case 3:
             document.getElementById("Contract3").innerHTML = "Mana Faster"
-            document.getElementById("Contract3").title = "Blood for faster mana"
+            document.getElementById("Contract3").title = "Blood for faster mana."
+            break;
+        case 4:
+            document.getElementById("Contract3").innerHTML = "Quick Cash"
+            document.getElementById("Contract3").title = "Blood money."
             break;
         default:
             document.getElementById("Contract3").innerHTML = "Bugged"
@@ -422,6 +451,7 @@ function ContractLoop() {
         case "Idle Faster": 
             if ((gameData.ContractProgress >= 300000)) { 
             gameData.IdleContractActive = 0
+            gameData.ContractProgress = 0
             document.getElementById("ActiveContract").innerHTML = "Active Contract"
             gameData.IdleContractRank += 1
             document.getElementById("ActiveContract").title = "Sign here, here, and here."
@@ -431,6 +461,7 @@ function ContractLoop() {
         case "Mana More":
         if ((gameData.ContractProgress >= 300000)){ 
             gameData.IdleContractActive = 0
+            gameData.ContractProgress = 0
             document.getElementById("ActiveContract").innerHTML = "Active Contract"
             gameData.ManaMoreContractRank += 1
             document.getElementById("ActiveContract").title = "Sign here, here, and here."
@@ -440,13 +471,30 @@ function ContractLoop() {
         case "Mana Faster":
             if ((gameData.ContractProgress >= 300000)){
             gameData.IdleContractActive = 0
+            gameData.ContractProgress = 0
             document.getElementById("ActiveContract").innerHTML = "Active Contract"
             gameData.ManaFasterContractRank += 1
             document.getElementById("ActiveContract").title = "Sign here, here, and here."
             NewContracts()
         }
+        break;
+        case "Quick Cash":
+            if ((gameData.ContractProgress >= 300000)){
+            gameData.IdleContractActive = 0
+            gameData.ContractProgress = 0
+            document.getElementById("ActiveContract").innerHTML = "Active Contract"
+            gameData.QuickCashContractRank += 1
+            gameData.Cash += ((10000) * (Math.pow(gameData.QuickCashContractRank, .5)))
+            document.getElementById("ActiveContract").title = "Sign here, here, and here."
+            NewContracts()
+            }
+            break;
         default:
-            document.getElementById("ActiveContract").title = ((gameData.ContractProgress / 300000) * 100).toFixed() + "% Progress"
+            if (document.getElementById("ActiveContract").innerHTML = "Active Contract") {
+                document.getElementById("ActiveContract").title = "Sign here, here, and here."
+            }
+            else {document.getElementById("ActiveContract").title = ((gameData.ContractProgress / 300000) * 100).toFixed() + "% Progress"
+            }
     }
 }
 

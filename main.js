@@ -540,4 +540,9 @@ var UnlockLoop = window.setInterval(function() {
     } else {
         document.getElementById("StackTheDeck").disabled = true
     }
+    if(gameData.Mana >= (15 + ((gameData.StackTheDeckRank) * (1.06) * 5))) {
+        document.getElementById("MakePact").disabled = false
+    } else {
+        document.getElementById("MakePact").disabled = true
+    }
 }, 20)

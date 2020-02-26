@@ -143,13 +143,13 @@ function Summoning() {
 function Magic() {
     document.getElementById("MainMenu").style.display = "none"
     document.getElementById("MagicMenu").style.display = "inline"
-    document.getElementById("Mana2").innerHTML = gameData.Mana + " / " + gameData.ManaMax + " Mana"
+    document.getElementById("Mana2").innerHTML = gameData.Mana.toFixed() + " / " + gameData.ManaMax.toFixed() + " Mana"
     if(gameData.Mana >= (5 + ((gameData.StackTheDeckRank) * (1.06))).toFixed()) {
         document.getElementById("StackTheDeck").disabled = false
     } else {
         document.getElementById("StackTheDeck").disabled = true
     }
-    if(gameData.Mana >= (15 + ((gameData.StackTheDeckRank) * (1.06) * 5))) {
+    if(gameData.Mana >= (15 + ((gameData.MakePactRank) * (1.06) * 5))) {
         document.getElementById("MakePact").disabled = false
     } else {
         document.getElementById("MakePact").disabled = true
@@ -293,10 +293,10 @@ function StackTheDeck() {
 }
 
 function MakePact() {
-    gameData.Mana -= (15 + ((gameData.StackTheDeckRank) * (1.06) * 5))
+    gameData.Mana -= (15 + ((gameData.MakePactRank) * (1.06) * 5))
     document.getElementById("Mana").innerHTML = gameData.Mana + " / " + gameData.ManaMax + " Mana"
     gameData.MakePactRank += 1
-    document.getElementById("MakePactRankCost").innerHTML = "Cost: " (15 + ((gameData.StackTheDeckRank) * (1.06) * 5)) + " Mana"
+    document.getElementById("MakePactRankCost").innerHTML = "Cost: " (15 + ((gameData.MakePactRank) * (1.06) * 5)) + " Mana"
 }
 
 function ManaRefresh() {
@@ -348,8 +348,7 @@ function NewContracts() {
     document.getElementById("Contract1Button").disabled = false
     document.getElementById("Contract2Button").disabled = false
     document.getElementById("Contract3Button").disabled = false
-    RandomizeContracts()
-    
+    RandomizeContracts()    
 }
 
 function shuffleContracts(array) {
@@ -380,7 +379,7 @@ function RandomizeContracts() {
             document.getElementById("Contract1").title = "Blood for faster mana"
             break;
         default:
-            document.getElementById("Contract1").innerHTML = gameData.Contract1R
+            document.getElementById("Contract1").innerHTML = "Bugged"
     }
     switch(gameData.Contract2R) {
         case 1:
@@ -447,9 +446,7 @@ function ContractLoop() {
             NewContracts()
         }
         default:
-            
             document.getElementById("ActiveContract").title = ((gameData.ContractProgress / 300000) * 100).toFixed() + "% Progress"
-
     }
 }
 
@@ -458,7 +455,6 @@ function DisableContracts() {
     document.getElementById("Contract1Button").disabled = true
     document.getElementById("Contract2Button").disabled = true
     document.getElementById("Contract3Button").disabled = true
-
 }
     
 var MainGameLoop = window.setInterval(function() {
@@ -540,7 +536,7 @@ var UnlockLoop = window.setInterval(function() {
     } else {
         document.getElementById("StackTheDeck").disabled = true
     }
-    if(gameData.Mana >= (15 + ((gameData.StackTheDeckRank) * (1.06) * 5))) {
+    if(gameData.Mana >= (15 + ((gameData.MakePactRank) * (1.06) * 5))) {
         document.getElementById("MakePact").disabled = false
     } else {
         document.getElementById("MakePact").disabled = true

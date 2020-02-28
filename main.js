@@ -1,4 +1,5 @@
 //Fix Contracts. Need to increment contract progress!!!
+//What did I mean by the above?!
 
 var gameData = {
     Cash: 0,
@@ -149,7 +150,7 @@ function Magic() {
     } else {
         document.getElementById("StackTheDeck").disabled = true
     }
-    if(gameData.Mana >= (15 + ((gameData.MakePactRank) * (1.06) * 5))) {
+    if(gameData.Mana >= (15 + ((gameData.MakePactRank) * (1.06) * 5)).toFixed()) {
         document.getElementById("MakePact").disabled = false
     } else {
         document.getElementById("MakePact").disabled = true
@@ -188,6 +189,7 @@ function Contract1() {
         default:
             document.getElementById("ActiveContract").innerHTML = "BUGGED"
     }
+    NewContracts()
     DisableContracts()
 }
 
@@ -210,6 +212,7 @@ function Contract2() {
         default:
             document.getElementById("ActiveContract").innerHTML = "BUGGED"
     }
+    NewContracts()
     DisableContracts()
 }
 
@@ -232,6 +235,7 @@ function Contract3() {
         default:
             document.getElementById("ActiveContract").innerHTML = "BUGGED"
     }
+    NewContracts()
     DisableContracts()
 }
 
@@ -303,17 +307,17 @@ function ManaPerTick() {
 }
 
 function StackTheDeck() {
-    gameData.Mana -= (5 + ((gameData.StackTheDeckRank) * (1.06)))
+    gameData.Mana -= (5 + ((gameData.StackTheDeckRank) * (1.06)).toFixed())
     document.getElementById("Mana").innerHTML = gameData.Mana + " / " + gameData.ManaMax + " Mana"
     gameData.StackTheDeckRank += 1
-    document.getElementById("StackTheDeckRankCost").innerHTML = (5 + ((gameData.StackTheDeckRank) * (1.06))).toFixed() + " Mana"
+    document.getElementById("StackTheDeckRankCost").innerHTML = "Cost: " + (5 + ((gameData.StackTheDeckRank) * (1.06))).toFixed() + " Mana"
 }
 
 function MakePact() {
-    gameData.Mana -= (15 + ((gameData.MakePactRank) * (1.06) * 5))
+    gameData.Mana -= (15 + ((gameData.MakePactRank) * (1.06) * 5)).toFixed()
     document.getElementById("Mana").innerHTML = gameData.Mana + " / " + gameData.ManaMax + " Mana"
     gameData.MakePactRank += 1
-    document.getElementById("MakePactRankCost").innerHTML = "Cost: " (15 + ((gameData.MakePactRank) * (1.06) * 5)) + " Mana"
+    document.getElementById("MakePactRankCost").innerHTML = "Cost: " + (15 + ((gameData.MakePactRank) * (1.06) * 5)).toFixed() + " Mana"
 }
 
 function ManaRefresh() {
@@ -362,9 +366,6 @@ function ContractProgressPT() {
 }
 
 function NewContracts() {
-    document.getElementById("Contract1Button").disabled = false
-    document.getElementById("Contract2Button").disabled = false
-    document.getElementById("Contract3Button").disabled = false
     RandomizeContracts()    
 }
 
@@ -450,51 +451,69 @@ function ContractLoop() {
     switch (document.getElementById("ActiveContract").innerHTML) {
         case "Idle Faster": 
             if ((gameData.ContractProgress >= 300000)) { 
-            gameData.IdleContractActive = 0
-            gameData.ContractProgress = 0
-            document.getElementById("ActiveContract").innerHTML = "Active Contract"
-            gameData.IdleContractRank += 1
-            document.getElementById("ActiveContract").title = "Sign here, here, and here."
-            NewContracts()
-        }
+                gameData.IdleContractActive = 0
+                gameData.ContractProgress = 0
+                document.getElementById("ActiveContract").innerHTML = "Active Contract"
+                gameData.IdleContractRank += 1
+                document.getElementById("ActiveContract").title = "Sign here, here, and here."
+                document.getElementById("Contract1Button").disabled = false
+                document.getElementById("Contract2Button").disabled = false
+                document.getElementById("Contract3Button").disabled = false
+            }
+            else {
+                document.getElementById("ActiveContract").title = ((gameData.ContractProgress / 300000) * 100).toFixed() + "% Progress"
+            }
         break;
         case "Mana More":
         if ((gameData.ContractProgress >= 300000)){ 
-            gameData.IdleContractActive = 0
-            gameData.ContractProgress = 0
-            document.getElementById("ActiveContract").innerHTML = "Active Contract"
-            gameData.ManaMoreContractRank += 1
-            document.getElementById("ActiveContract").title = "Sign here, here, and here."
-            NewContracts()
+                gameData.IdleContractActive = 0
+                gameData.ContractProgress = 0
+                document.getElementById("ActiveContract").innerHTML = "Active Contract"
+                gameData.ManaMoreContractRank += 1
+                document.getElementById("ActiveContract").title = "Sign here, here, and here."
+                document.getElementById("Contract1Button").disabled = false
+                document.getElementById("Contract2Button").disabled = false
+                document.getElementById("Contract3Button").disabled = false
+        }
+        else {
+            document.getElementById("ActiveContract").title = ((gameData.ContractProgress / 300000) * 100).toFixed() + "% Progress"
         }
         break;
         case "Mana Faster":
             if ((gameData.ContractProgress >= 300000)){
-            gameData.IdleContractActive = 0
-            gameData.ContractProgress = 0
-            document.getElementById("ActiveContract").innerHTML = "Active Contract"
-            gameData.ManaFasterContractRank += 1
-            document.getElementById("ActiveContract").title = "Sign here, here, and here."
-            NewContracts()
+                gameData.IdleContractActive = 0
+                gameData.ContractProgress = 0
+                document.getElementById("ActiveContract").innerHTML = "Active Contract"
+                gameData.ManaFasterContractRank += 1
+                document.getElementById("ActiveContract").title = "Sign here, here, and here."
+                document.getElementById("Contract1Button").disabled = false
+                document.getElementById("Contract2Button").disabled = false
+                document.getElementById("Contract3Button").disabled = false
+        }
+        else {
+                document.getElementById("ActiveContract").title = ((gameData.ContractProgress / 300000) * 100).toFixed() + "% Progress"
         }
         break;
         case "Quick Cash":
             if ((gameData.ContractProgress >= 300000)){
-            gameData.IdleContractActive = 0
-            gameData.ContractProgress = 0
-            document.getElementById("ActiveContract").innerHTML = "Active Contract"
-            gameData.QuickCashContractRank += 1
-            gameData.Cash += ((10000) * (Math.pow(gameData.QuickCashContractRank, .5)))
-            document.getElementById("ActiveContract").title = "Sign here, here, and here."
-            NewContracts()
+                gameData.IdleContractActive = 0
+                gameData.ContractProgress = 0
+                document.getElementById("ActiveContract").innerHTML = "Active Contract"
+                gameData.QuickCashContractRank += 1
+                gameData.Cash += ((10000) * (Math.pow(gameData.QuickCashContractRank, .5)))
+                document.getElementById("ActiveContract").title = "Sign here, here, and here."
+                document.getElementById("Contract1Button").disabled = false
+                document.getElementById("Contract2Button").disabled = false
+                document.getElementById("Contract3Button").disabled = false
+            }
+            else {
+                document.getElementById("ActiveContract").title = ((gameData.ContractProgress / 300000) * 100).toFixed() + "% Progress"
             }
             break;
+        case "Active Contract":
+            document.getElementById("ActiveContract").title = "Sign here, here, and here."
+            break;
         default:
-            if (document.getElementById("ActiveContract").innerHTML = "Active Contract") {
-                document.getElementById("ActiveContract").title = "Sign here, here, and here."
-            }
-            else {document.getElementById("ActiveContract").title = ((gameData.ContractProgress / 300000) * 100).toFixed() + "% Progress"
-            }
     }
 }
 
@@ -503,6 +522,8 @@ function DisableContracts() {
     document.getElementById("Contract1Button").disabled = true
     document.getElementById("Contract2Button").disabled = true
     document.getElementById("Contract3Button").disabled = true
+    document.getElementById("Contract4Button").disabled = true
+    document.getElementById("Contract5Button").disabled = true
 }
     
 var MainGameLoop = window.setInterval(function() {
@@ -579,12 +600,12 @@ var UnlockLoop = window.setInterval(function() {
     } else {
         document.getElementById("Warlock").disabled = true
     }
-    if (gameData.Mana >= (5 + ((gameData.StackTheDeckRank) * (1.06))).toFixed()) {
+    if (gameData.Mana >= (5 + ((gameData.StackTheDeckRank) * (1.06)).toFixed())) {
         document.getElementById("StackTheDeck").disabled = false
     } else {
         document.getElementById("StackTheDeck").disabled = true
     }
-    if(gameData.Mana >= (15 + ((gameData.MakePactRank) * (1.06) * 5))) {
+    if(gameData.Mana >= (15 + ((gameData.MakePactRank) * (1.06) * 5)).toFixed()) {
         document.getElementById("MakePact").disabled = false
     } else {
         document.getElementById("MakePact").disabled = true
